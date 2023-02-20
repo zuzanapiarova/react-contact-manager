@@ -5,9 +5,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## ERRORS AND SOLUTIONS
 E: BREAKING CHANGE: webpack < 5 used to include polyfills for node.js core modules by default. This is no longer the case. Verify if you need this module and configure a polyfill for it.
     https://www.alchemy.com/blog/how-to-polyfill-node-core-modules-in-webpack-5
+
 E: transform class component to functional component
     - also: remove this and only use state.sth or count.sth etc., 
     - check how AddContact.js > input in form is transformed from class component to accept useState, useNavigate hooks
+
     https://www.tarmac.io/how-to-convert-a-react-class-component-to-a-function-component
 E: passing state to Link 
     - first set state and pathname in Link in ContactCard
@@ -16,7 +18,30 @@ E: passing state to Link
             console.log(location) <--here see the location object and all the information, and state is included in it
             const {email, name} = location.state; <--this can be anything, saves the state information into variables that will be reused further in code
     https://www.positronx.io/react-router-dom-send-or-get-props-state-with-link-tutorial/
-E:
+
+E:instead of using constructor in functional component, set the initial state with useState hook, also use useLocation to get the state 
+    https://stackoverflow.com/questions/59289536/how-to-initialize-the-react-functional-component-state-from-props
+
+
+## RESOURCES
+1. JSON server: imitate quick back-end for prototyping and mocking https://github.com/typicode/json-server
+    - create a new folder 'server-api' in the same parent folder as our app and start a terminal for this folder
+    - in this folder install json server: npm init --yes and then npm i --save json-server
+    - create a db.json in this directory an populate it with some data you would need to use in you app - what we save these - here "contacts"  is also used in App.js when retrieving data from fake backed with axios get method - const retrieveContacts = async () => {
+    const response = await api.get('/contacts'); 
+    return response.data;
+  }
+    - from package.json scripts remove test and add "start": "json-server -p 3006 -w db.json";
+    - then start this server in its terminal with npm start and go to the link
+    - json server terminal will display all calls made to this server - put, get, delete
+
+2. AXIOS: library used to make async requests to an API, return data from the API, and then do things with that data in our React application, communicates with the back end and helps you perform CRUD operations, instead of fetch or ajax
+    - install it in the contact app terminal like: npm install axios
+    - create a new directory 'api' in src folder, and in it create a folder contacts.js which will be our axios base file
+    - in that file import axios and export default axios.create() which will take in an object with baseURL: our json-server url{baseuRL:'http://localhost:3006'}
+    - the into our App.js import api from '../api/contacts.js'
+    - then we can change the hooks that set local storage, to hooks that work with fake external files, and on our page we will see out data from out db.json file from json-server
+    - you can check the json data in developer tools under network and select the contact folder to see what data we have - AXIOS GET, POST, DELETE... CALLS WILL CHANGE THIS FILE!! IN THE CONSOLE>NETWORK BUT ALSO IN OUR LOCAL FILE !! WHAAAT interesting
 
 
 ## Available Scripts

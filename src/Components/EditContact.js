@@ -1,49 +1,43 @@
 import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const AddContact = (props) => {
-     
-    const [info, setInfo] = useState(
-        {
-        name:'', 
-        email:''
-        }
-    )
+const EditContact = (props) => {
+
+    const location = useLocation();
+
+    const [info, setInfo] = useState(location.state);
 
     const navigate = useNavigate();
-
-    const add = (e) => {
+    const update = (e) => {
         e.preventDefault();
         if(info.email === '' || info.name === ''){
             alert('All fields are mandatory');
             return
         }
- 
-        props.addContactHandler(info)
+        props.updateContactHandler(info)
         setInfo({name:'', email:''})
         navigate('/')
     }
 
         return(
             <div>
-                <h2>Add Contact</h2>
-                <form onSubmit={add}>
+                <h2>Edit Contact</h2>
+                <form onSubmit={update}>
                     <div className='field'> 
                         <label>Name</label>
-                        <input type='text' name='name' placeholder='Enter your name' value={info.name} onChange={ (e) => setInfo({name: e.currentTarget.value, email: info.email})}></input>
+                        <input type='text' name='name' placeholder='Enter your name' value={info.name} onChange={ (e) => setInfo({name: e.currentTarget.value, email:info.email, id:info.id})}></input>
                     </div>
                     <div className='field'>
                         <label>Email</label>
-                        <input type='email' name='email' placeholder='Enter your email'  value={info.email} onChange={ (e) => setInfo({email: e.currentTarget.value, name:info.name})}></input>
+                        <input type='email' name='email' placeholder='Enter your email'  value={info.email} onChange={ (e) => setInfo({email: e.currentTarget.value, name:info.name, id:info.id})}></input>
                     </div>
-                    <button>Add</button>
+                    <button>Update</button>
                 </form>
             </div>
-
         )
 }
 
-export default AddContact;
+export default EditContact;
 
 /*  correct class component
 import React from 'react';
